@@ -1,0 +1,9 @@
+transformers 
+trl 
+accelerate 
+torch 
+bitsandbytes 
+peft 
+datasets 
+ipykernel
+notebook
