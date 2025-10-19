@@ -1,9 +1,13 @@
 transformers 
+datasets 
+bitsandbytes 
+huggingface_hub
+hf-xet
 trl 
 accelerate 
 torch 
-bitsandbytes 
 peft 
-datasets 
-ipykernel
+ipykernel==6.30.1
+ipywidgets
 notebook
+tqdm
