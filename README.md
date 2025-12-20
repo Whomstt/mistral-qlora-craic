@@ -1,5 +1,5 @@
 # mistral-qlora-craic
-Fine-tuning Mistral 7B v0.3 using QLoRA for Irish-English dialect adaptation.
+Fine-tuning Ministral-3-3B-Base-2512 using QLoRA for Irish-English dialect adaptation.
 
 ## Requirements
 - Nvidia CUDA GPU
