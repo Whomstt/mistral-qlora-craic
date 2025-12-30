@@ -6,8 +6,8 @@ torch==2.9.0
 transformers==5.0.0rc0
 datasets==4.2.0
 bitsandbytes==0.48.1
-huggingface_hub==0.35.3
-hf-xet==1.1.10
+huggingface_hub==1.2.3
+hf-xet==1.2.0
 hf-transfer==0.1.9
 trl==0.24.0
 peft==0.17.1
