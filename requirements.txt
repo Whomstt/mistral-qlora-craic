@@ -25,3 +25,6 @@ tqdm==4.67.1
 
 # Mistral
 mistral-common==1.8.6
+
+# MLflow
+mlflow==3.8.1

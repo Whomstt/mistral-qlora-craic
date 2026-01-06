@@ -14,3 +14,4 @@ Create a compatible virtual environment:
 ## References
 Core Workflow: https://pub.towardsai.net/from-quantization-to-inference-beginners-guide-for-practical-fine-tuning-52c7c3512ef6
 <br>LoRA Hyperparameter Tuning: https://unsloth.ai/docs/get-started/fine-tuning-llms-guide/lora-hyperparameters-guide
+<br>MLflow Experiment Tracking: https://mlflow.org/docs/latest/ml/deep-learning/transformers/tutorials/fine-tuning/transformers-peft/
