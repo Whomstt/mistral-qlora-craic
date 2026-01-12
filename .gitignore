@@ -1,2 +1,5 @@
 .venv
 .env
+mistral-qlora-craic
+qlora-checkpoint
+ministral-3-3b-base-4bit

@@ -3,7 +3,7 @@
 torch==2.9.0
 
 # Hugging Face / Transformers
-transformers==5.0.0rc0
+transformers==5.0.0rc2
 datasets==4.2.0
 bitsandbytes==0.48.1
 huggingface_hub==1.2.3
@@ -28,3 +28,6 @@ mistral-common==1.8.6
 
 # MLflow
 mlflow==3.8.1
+
+# vLLM
+vllm==0.13.0
