@@ -26,4 +26,7 @@ The Mistral-QLoRA-Craic project involves fine-tuning the Ministral-3-3B-Base-251
 Core Workflow: https://pub.towardsai.net/from-quantization-to-inference-beginners-guide-for-practical-fine-tuning-52c7c3512ef6
 <br>LoRA Hyperparameter Tuning: https://unsloth.ai/docs/get-started/fine-tuning-llms-guide/lora-hyperparameters-guide
 <br>MLflow Experiment Tracking: https://mlflow.org/docs/latest/ml/deep-learning/transformers/tutorials/fine-tuning/transformers-peft/
-<br>Dataset Inspirations: https://tandem.net/blog/irish-slang-words-phrases
+
+## Dataset Inspirations:
+https://tandem.net/blog/irish-slang-words-phrases
+<br>https://www.reddit.com/r/ireland/comments/yraz43/irishenglish_is_the_best_english_dialect_by_a_mile/
