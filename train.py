@@ -15,35 +15,17 @@ from peft import (
     TaskType,
     prepare_model_for_kbit_training,
 )
+import mlflow
 
 
-# Config for loading the model in 4 bits
-bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,  # original is 32 bit
-    bnb_4bit_quant_type="nf4",  # gaussian distribution
-    bnb_4bit_use_double_quant=True,  # 32 -> 8 -> 4 bits
-    bnb_4bit_compute_dtype=torch.float16,  # compute in float16
-)
-
-# Load the model with our config
-base_model_id = "mistralai/Ministral-3-3B-Base-2512"
+# Load the base quantized model
 base_model = Mistral3ForConditionalGeneration.from_pretrained(
-    base_model_id,
-    quantization_config=bnb_config,  # use our quantization config
+    "ministral-3-3b-base-4bit",
     device_map="auto",  # use CUDA if available
 )
 
-# Enable gradient checkpointing
-base_model.gradient_checkpointing_enable()
-# Quantization-aware training
-base_model = prepare_model_for_kbit_training(base_model)
-# Save the quantized base model
-base_model.save_pretrained("ministral-3-3b-base-4bit")
-
-# Setup for the tokenizer
-tokenizer = MistralCommonBackend.from_pretrained(
-    base_model_id
-)  # tokenization specific to Mistral models
+# Load the tokenizer
+tokenizer = MistralCommonBackend.from_pretrained("ministral-3-3b-base-4bit")
 
 # Load the dataset
 dataset = load_dataset("json", data_files="training_data.jsonl", split="train")
@@ -60,8 +42,8 @@ tokenized_dataset = dataset.map(tokenize, batched=True)
 
 # Lora Configuration
 lora_config = LoraConfig(
-    r=16,
-    lora_alpha=32,
+    r=32,
+    lora_alpha=64,
     target_modules=[
         "q_proj",
         "k_proj",
@@ -71,7 +53,7 @@ lora_config = LoraConfig(
         "up_proj",
         "down_proj",
     ],
-    lora_dropout=0.05,
+    lora_dropout=0.1,
     bias="none",
     task_type=TaskType.CAUSAL_LM,
 )
@@ -88,7 +70,7 @@ training_args = TrainingArguments(
     logging_steps=10,
     save_steps=50,
     save_total_limit=1,
-    report_to="none",
+    report_to="mlflow",
 )
 
 # Model Training
@@ -98,8 +80,17 @@ trainer = Trainer(
     train_dataset=tokenized_dataset,
     data_collator=DataCollatorForLanguageModeling(tokenizer, mlm=False),
 )
-trainer.train()
 
-# Save the trained LoRA
-peft_model.save_pretrained("mistral-qlora-craic")
-tokenizer.save_pretrained("mistral-qlora-craic")
+# Track as MLflow Experiment
+mlflow.set_experiment("mistral-qlora-craic")
+mlflow.transformers.autolog()  # Enable autologging
+with mlflow.start_run():
+    # Log the configs
+    mlflow.log_params(training_args.to_dict())
+    mlflow.log_params(lora_config.to_dict())
+    # Train the adapter
+    trainer.train()
+    # Save and log
+    peft_model.save_pretrained("mistral-qlora-craic")
+    tokenizer.save_pretrained("mistral-qlora-craic")
+    mlflow.log_artifacts("mistral-qlora-craic")
