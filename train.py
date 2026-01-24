@@ -82,7 +82,7 @@ trainer = Trainer(
 # Track as MLflow Experiment
 mlflow.set_experiment("mistral-qlora-craic")
 mlflow.transformers.autolog()  # Enable autologging
-with mlflow.start_run():
+with mlflow.start_run(run_name="mistral-qlora-craic-v1"):
     # Log the configs
     mlflow.log_params(training_args.to_dict())
     mlflow.log_params(lora_config.to_dict())
