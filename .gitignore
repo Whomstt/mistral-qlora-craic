@@ -2,5 +2,5 @@
 .env
 mistral-qlora-craic
 qlora-checkpoint
-ministral-3-3b-base-4bit
+Ministral-3-3B-Base-2512-bnb-nf4
 mlruns

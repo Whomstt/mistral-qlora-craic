@@ -37,6 +37,6 @@ base_model.gradient_checkpointing_enable()
 # Quantization-aware training
 base_model = prepare_model_for_kbit_training(base_model)
 # Save the quantized base model
-base_model.save_pretrained("ministral-3-3b-base-4bit")
+base_model.save_pretrained("Ministral-3-3B-Base-2512-bnb-nf4")
 # Save the tokenizer
-tokenizer.save_pretrained("ministral-3-3b-base-4bit")
+tokenizer.save_pretrained("Ministral-3-3B-Base-2512-bnb-nf4")
