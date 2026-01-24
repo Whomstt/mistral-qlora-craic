@@ -1,7 +1,8 @@
 # mistral-qlora-craic
 The Mistral-QLoRA-Craic project involved fine-tuning the Ministral-3-3B-Base-2512 model using QLoRA for Irish-English dialect adaptation. A 4-bit quantization (NF4) was applied to the base model using the HF BitsAndBytes library to provide similar model performance with a huge reduction in memory usage and latency. LoRA config parameters were tuned to ensure that sufficient model parameters were trained, while considering the GPU budget available. A suitable dataset was created with many Irish-English dialect samples by combining inspirations from various sources. Evaluation was carried out by using MLflow to benchmark fine-tuned vs. base model performance to ensure reliability. Hugging Face and vLLM support was implemented to support efficient GPU inference and compatibility across devices.
 ## Downloads
-- Base Quantised Model (HF): https://huggingface.co/Whomstt/Ministral-3-3B-Base-2512-bnb-nf4
+- Base Model (HF): https://huggingface.co/mistralai/Ministral-3-3B-Base-2512
+- Quantised Model (HF): https://huggingface.co/Whomstt/Ministral-3-3B-Base-2512-bnb-nf4
 - LoRA Adapter (HF): https://huggingface.co/Whomstt/mistral-qlora-craic
 - Dataset (HF): https://huggingface.co/datasets/Whomstt/irish-english-dialect
 ## Requirements
