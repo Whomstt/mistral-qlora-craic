@@ -1,7 +1,5 @@
 # Import the necessary libraries
-import torch
 from transformers import (
-    BitsAndBytesConfig,
     Mistral3ForConditionalGeneration,
     MistralCommonBackend,
     TrainingArguments,
@@ -13,19 +11,19 @@ from peft import (
     LoraConfig,
     get_peft_model,
     TaskType,
-    prepare_model_for_kbit_training,
 )
 import mlflow
 
 
-# Load the base quantized model
+# Load the base quantized model (using hugging face upload)
+base_repo = "Whomstt/Ministral-3-3B-Base-2512-bnb-nf4"
 base_model = Mistral3ForConditionalGeneration.from_pretrained(
-    "ministral-3-3b-base-4bit",
+    base_repo,
     device_map="auto",  # use CUDA if available
 )
 
 # Load the tokenizer
-tokenizer = MistralCommonBackend.from_pretrained("ministral-3-3b-base-4bit")
+tokenizer = MistralCommonBackend.from_pretrained(base_repo)
 
 # Load the dataset
 dataset = load_dataset("json", data_files="training_data.jsonl", split="train")
@@ -91,6 +89,10 @@ with mlflow.start_run():
     # Train the adapter
     trainer.train()
     # Save and log
-    peft_model.save_pretrained("mistral-qlora-craic")
-    tokenizer.save_pretrained("mistral-qlora-craic")
-    mlflow.log_artifacts("mistral-qlora-craic")
+    mlflow.transformers.log_model(
+        transformers_model={"model": trainer.model, "tokenizer": tokenizer},
+        tokenizer=tokenizer,
+        name="model",
+        task="text-generation",
+        pip_requirements="requirements.txt",
+    )

@@ -1,36 +1,13 @@
 # Import necessary libraries
-from peft import PeftModel
-from transformers import (
-    Mistral3ForConditionalGeneration,
-    MistralCommonBackend,
-)
 import mlflow
 
 
-# Get the artifact from MLflow
-run_id = "0cf6ce3db4024181916011286f70fb23"
-artifact_path = mlflow.artifacts.download_artifacts(run_id=run_id, artifact_path="")
-
-# Load the base quantized model
-base_model = Mistral3ForConditionalGeneration.from_pretrained(
-    "ministral-3-3b-base-4bit",
-    device_map="auto",  # use CUDA if available
-)
-
-# Load the trained LoRA
-model = PeftModel.from_pretrained(base_model, artifact_path)
-tokenizer = MistralCommonBackend.from_pretrained(artifact_path)
+# Load the fine-tuned model from MLflow
+model_uri = "runs:/2ca73cbd1ce04ed6baa626661ad37a68/model"
+pipe = mlflow.transformers.load_model(model_uri, device_map="auto")
 
 # Take a prompt and generate text until user exits
 while True:
-    prompt = tokenizer(input("Enter your prompt: "), return_tensors="pt").to(
-        model.device
-    )
-    output = model.generate(
-        **prompt, max_new_tokens=30, do_sample=True, temperature=0.7, top_p=0.9
-    )
-    print(
-        tokenizer.decode(
-            output[0][prompt["input_ids"].shape[-1] :], skip_special_tokens=True
-        )
-    )
+    prompt = input("Enter your prompt: ")
+    output = pipe(prompt, max_new_tokens=30, do_sample=True, temperature=0.7, top_p=0.9)
+    print(output[0]["generated_text"])

@@ -5,7 +5,6 @@ from transformers import (
     Mistral3ForConditionalGeneration,
     MistralCommonBackend,
 )
-from datasets import load_dataset
 from peft import (
     prepare_model_for_kbit_training,
 )
